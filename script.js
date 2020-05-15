@@ -10,8 +10,11 @@ var backend_time__ = 0;
 var frontend_title_options____ = ['', 'Create Component', 'Update Component'];
 var frontend_title____;
 var qa_title_____ = 'QA - testing';
+var qa_title_____2 = 'QA - testing';
 var backend_title_____ = 'Implement Endpoint';
+var backend_title_____2 = 'Implement Endpoint';
 var coordinate_title____ = 'BE - FE Coordination';
+var coordinate_title____2 = 'BE - FE Coordination';
 
 if (window.location.href.match(jira______scayla)) {
     if (!isDialogOpen_____scayla()) {
@@ -49,15 +52,15 @@ function runCode______scayla() {
     if (!isDialogOpen_____scayla()) {
         qa_time__ = prompt('How many hours for QA?\nex: (2w 3d 4h) or empty');
         if (qa_time__) {
-            qa_title_____ = prompt('Name of QA task? \nleave empty for "' + qa_title_____ + '".') || qa_title_____
+            qa_title_____ = prompt('Name of QA task? \nleave empty for "' + qa_title_____2 + '".') || qa_title_____2
         }
         coordinate_time__ = prompt('How many hours for Coordination? \nex: (2w 3d 4h) or empty');
         if (coordinate_time__) {
-            coordinate_title____ = prompt('Name of Coordination task? \nleave empty for "' + coordinate_title____ + '".') || coordinate_title____
+            coordinate_title____ = prompt('Name of Coordination task? \nleave empty for "' + coordinate_title____2 + '".') || coordinate_title____2
         }
         backend_time__ = prompt('How many hours for the Backend Task? \nex: (2w 3d 4h) or empty');
         if (backend_time__) {
-            backend_title_____ = prompt('Name of Backend task? \nleave empty for "' + backend_title_____ + '".') || backend_title_____
+            backend_title_____ = prompt('Name of Backend task? \nleave empty for "' + backend_title_____2 + '".') || backend_title_____2
         }
         frontend_time__ = prompt('How many hours for the Frontend? \nex: (2w 3d 4h) or empty');
         if (frontend_time__) {
@@ -74,10 +77,10 @@ function runCode______scayla() {
             return;
         }
 
-        setIssue______scayla(qa_title_____, qa_time__, 'task', true).then((value) => {
-            setIssue______scayla(coordinate_title____, coordinate_time__, 'task', true).then((value) => {
-                setIssue______scayla(frontend_title____, frontend_time__, 'frontend', true).then((value) => {
-                    setIssue______scayla(backend_title_____, backend_time__, 'backend', false).then((value) => {
+        setIssue______scayla(coordinate_title____, coordinate_time__, 'task', true).then((value) => {
+            setIssue______scayla(frontend_title____, frontend_time__, 'frontend', true).then((value) => {
+                setIssue______scayla(backend_title_____, backend_time__, 'backend', true).then((value) => {
+                    setIssue______scayla(qa_title_____, qa_time__, 'task', false).then((value) => {
                         setTimeout(() => {
                             alert('Gerne gerne, immer!');
                         }, 500);
@@ -135,7 +138,7 @@ function setIssue______scayla(title, time, issueType, thereAreMore) {
                                         // console.log('before', checkbox_____createanother, checkbox_____createanother.prop('checked'), thereAreMore);
                                         if (jQuery('#qf-create-another').prop('checked') !== thereAreMore) {
                                             console.log('DIFFERENT - clicked on it');
-                                            jQuery('#qf-create-another').trigger('click', { isTrusted: true });
+                                            jQuery('#qf-create-another').trigger('click', {isTrusted: true});
                                         }
                                         // console.log('after', checkbox_____createanother, checkbox_____createanother.prop('checked'), thereAreMore);
                                         // and complete
