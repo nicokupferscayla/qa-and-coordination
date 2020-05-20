@@ -50,6 +50,11 @@ function isDialogOpen_____scayla() {
  */
 function runCode______scayla() {
     if (!isDialogOpen_____scayla()) {
+
+//        if (!document.getElementById('stqc_show')) {
+//            alert("There must be at least one subtask in the story");
+//            return;
+//        }
         qa_time__ = prompt('How many hours for QA?\nex: (2w 3d 4h) or empty');
         if (qa_time__) {
             qa_title_____ = prompt('Name of QA task? \nleave empty for "' + qa_title_____2 + '".') || qa_title_____2
@@ -70,11 +75,6 @@ function runCode______scayla() {
             } else {
                 frontend_title____ = frontend_title_options____[+my_fe_title___] || frontend_title_options____[1];
             }
-        }
-
-        if (!document.getElementById('stqc_show')) {
-            alert("There must be at least one subtask in the story");
-            return;
         }
 
         setIssue______scayla(coordinate_title____, coordinate_time__, 'task', true).then((value) => {
@@ -98,11 +98,15 @@ function runCode______scayla() {
 function setIssue______scayla(title, time, issueType, thereAreMore) {
     return new Promise((complete, rejected) => {
         if (!isNaN(+time)) {
-            alert('skipping ' + title + ' because time is not set (' + time + ')');
             complete();
         } else {
+            console.log('dialog open?', isDialogOpen_____scayla())
             if (!isDialogOpen_____scayla()) {
-                document.getElementById('stqc_show').click();
+                console.log('open from menu')
+                document.getElementById('opsbar-operations_more').click();
+                setTimeout(() => {
+                    document.getElementById('create-subtask').click();
+                }, 100);
             }
             check_check_check_check______scayla = setInterval(() => {
                 if (isDialogOpen_____scayla()) {
