@@ -3,10 +3,10 @@ var check_check_check_check______scayla;
 var check_check_check_check2_____scayla;
 var check_check_check_checkclose_____scayla;
 
-var qa_time__ = 0;
-var coordinate_time__ = 0;
-var frontend_time__ = 0;
-var backend_time__ = 0;
+var qa_time__ = true;
+var coordinate_time__ = true;
+var frontend_time__ = true;
+var backend_time__ = true;
 var frontend_title_options____ = ['', 'Create Component', 'Update Component'];
 var frontend_title____;
 var qa_title_____ = 'QA - testing';
@@ -55,19 +55,19 @@ function runCode______scayla() {
 //            alert("There must be at least one subtask in the story");
 //            return;
 //        }
-        qa_time__ = prompt('How many hours for QA?\nex: (2w 3d 4h) or empty');
+        qa_time__ = confirm('Create task for QA?');
         if (qa_time__) {
             qa_title_____ = prompt('Name of QA task? \nleave empty for "' + qa_title_____2 + '".') || qa_title_____2
         }
-        coordinate_time__ = prompt('How many hours for Coordination? \nex: (2w 3d 4h) or empty');
+        coordinate_time__ = confirm('Create task for Coordination?');
         if (coordinate_time__) {
             coordinate_title____ = prompt('Name of Coordination task? \nleave empty for "' + coordinate_title____2 + '".') || coordinate_title____2
         }
-        backend_time__ = prompt('How many hours for the Backend Task? \nex: (2w 3d 4h) or empty');
+        backend_time__ = confirm('Create task for the Backend?');
         if (backend_time__) {
             backend_title_____ = prompt('Name of Backend task? \nleave empty for "' + backend_title_____2 + '".') || backend_title_____2
         }
-        frontend_time__ = prompt('How many hours for the Frontend? \nex: (2w 3d 4h) or empty');
+        frontend_time__ = confirm('Create task for the Frontend?');
         if (frontend_time__) {
             var my_fe_title___ = prompt('Name of Frontend Task? \n(1) Create Component, (2) Update Component or enter text.');
             if (isNaN(my_fe_title___)) {
@@ -76,13 +76,20 @@ function runCode______scayla() {
                 frontend_title____ = frontend_title_options____[+my_fe_title___] || frontend_title_options____[1];
             }
         }
+        console.log(qa_time__, coordinate_time__, backend_time__, frontend_time__)
 
         setIssue______scayla(coordinate_title____, coordinate_time__, 'task', true).then((value) => {
             setIssue______scayla(frontend_title____, frontend_time__, 'frontend', true).then((value) => {
                 setIssue______scayla(backend_title_____, backend_time__, 'backend', true).then((value) => {
                     setIssue______scayla(qa_title_____, qa_time__, 'task', false).then((value) => {
                         setTimeout(() => {
-                            alert('Gerne gerne, immer!');
+                          const taskNames = [
+                            ...qa_time__ ? [qa_title_____] : [],
+                            ...coordinate_time__ ? [coordinate_title____] : [],
+                            ...frontend_time__ ? [frontend_title____] : [],
+                            ...backend_time__ ? [backend_title_____] : []
+                          ].join(', ');
+                            alert('Done creating tasks: \n' + taskNames);
                         }, 500);
                     })
                 })
@@ -95,11 +102,9 @@ function runCode______scayla() {
 
 }
 
-function setIssue______scayla(title, time, issueType, thereAreMore) {
+function setIssue______scayla(title, doCreateSubtask, issueType, thereAreMore) {
     return new Promise((complete, rejected) => {
-        if (!isNaN(+time)) {
-            complete();
-        } else {
+      if (doCreateSubtask) {
             console.log('dialog open?', isDialogOpen_____scayla())
             if (!isDialogOpen_____scayla()) {
                 console.log('open from menu')
@@ -156,16 +161,14 @@ function setIssue______scayla(title, time, issueType, thereAreMore) {
                     })).then(() => {
                         jQuery('.aui-nav > li[data-mode="source"] > a')[0].click();
                         // if (document.getElementById("description").value === "") {
-                        document.getElementById("description").value =
-                            `h2. ${title}
+                        document.getElementById("description").value =`h2. ${title}`;
+// 
+// (note: original estimate was ${doCreateSubtask}.)`;
 
-(note: original estimate was ${time}.)`;
-                        // }
-                        // if (document.getElementById("summary").value === "") {
                         document.getElementById("summary").value = title;
-                        // }
 
-                        document.getElementById('timetracking_originalestimate').value = time;
+                        //document.getElementById('timetracking_originalestimate').value = doCreateSubtask;
+                        
                         // setTimeout(() => {
                         //     var wysiwyg = jQuery('.aui-nav > li[data-mode="wysiwyg"] > a');
                         //     wysiwyg && wysiwyg[0].click();
@@ -190,6 +193,8 @@ function setIssue______scayla(title, time, issueType, thereAreMore) {
                 }
 
             })
+        } else {
+          complete();
         }
 
     })
