@@ -79,9 +79,10 @@ function runCode______scayla() {
         console.log(qa_time__, coordinate_time__, backend_time__, frontend_time__)
 
         setIssue______scayla(coordinate_title____, coordinate_time__, 'task', true).then((value) => {
+            setIssue______scayla(qa_title_____, qa_time__, 'task', true).then((value) => {
             setIssue______scayla(frontend_title____, frontend_time__, 'frontend', true).then((value) => {
-                setIssue______scayla(backend_title_____, backend_time__, 'backend', true).then((value) => {
-                    setIssue______scayla(qa_title_____, qa_time__, 'task', false).then((value) => {
+                setIssue______scayla(backend_title_____, backend_time__, 'backend', false).then((value) => {
+                    
                         setTimeout(() => {
                           const taskNames = [
                             ...qa_time__ ? [qa_title_____] : [],
